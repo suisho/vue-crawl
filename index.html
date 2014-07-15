@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.min.js"></script>
+  </head>
+  <body>
+    <div id="foo">
+      <div v-default-as="baz" v-text="baz">
+        hoge
+      </div>
+    </div>
+    <script>
+    Vue.directive("default-as", {
+      bind : function(){
+        this.vm.$data[this.key] = this.vm.$el.textContent
+      }
+    })
+    var app = new Vue({
+      el : "#foo",
+    })
+    </script>
+  </body>
+</html>
