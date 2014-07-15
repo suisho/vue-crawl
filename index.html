@@ -4,19 +4,45 @@
   </head>
   <body>
     <div id="foo">
-      <div v-default-as="baz" v-text="baz">
+      <div v-text="baz" v-default-text="baz">
         hoge
       </div>
     </div>
+    <!--div id="parat" size=100 a="b" data-content="hoge">
+      <div  v-text="data-cnt">
+        hoge
+      </div>
+      <div  v-text="a"></div>
+      
+    </div-->
     <script>
     Vue.directive("default-as", {
       bind : function(){
-        this.vm.$data[this.key] = this.vm.$el.textContent
+        var attr = this.el.nodeType === 3
+            ? 'nodeValue'
+            : 'textContent'
+        var val = this.vm.$data[this.key] 
+        
+        if(val === undefined){
+        }else{
+          val = [val]
+        }
+        this.vm.$data[this.key] = this.el[attr]
       }
     })
     var app = new Vue({
       el : "#foo",
     })
+    /*
+    var p = new Vue({
+      el : "#parat",
+      paramAttributes : ["size", "a", "data-content"],
+      ready : function(){
+      },
+      created :function(){
+        console.log(this.cnt)
+      }
+    })*/
     </script>
   </body>
 </html>
