@@ -13,9 +13,14 @@
     var app = new Vue({
       el : "#foo",
       methods :{
-        changeBaz : function(){
-          console.log(document.querySelector("#src"))
-          this.$data.baz = document.querySelector("#src").textContent
+        changeBaz : function(){       
+          this.$data.baz = this.escapeHtml(document.querySelector("html").outerHTML)
+        },
+        // ただのエスケープ関数
+        escapeHtml : function(str){
+          var div = document.createElement('div')
+          div.appendChild(document.createTextNode(str))
+          return div.innerHTML
         }
       }
     })
