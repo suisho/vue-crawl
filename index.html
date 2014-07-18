@@ -14,7 +14,7 @@
       el : "#foo",
       methods :{
         changeBaz : function(){       
-          this.$data.baz = this.escapeHtml(document.querySelector("html").outerHTML)
+          this.$data.baz = this.escapeHtml(document.querySelector("body").outerHTML)
         },
         // ただのエスケープ関数
         escapeHtml : function(str){
