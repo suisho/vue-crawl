@@ -1,10 +1,9 @@
 <html>
   <head>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.min.js"></script>
   </head>
   <body>
     <div id="foo">
-      <div v-text="baz" v-default-text="baz">
+      <div v-extext="baz">
         hoge
       </div>
     </div>
@@ -15,34 +14,11 @@
       <div  v-text="a"></div>
       
     </div-->
+    <a href="./index.html#1">a</a>
     <script>
-    Vue.directive("default-as", {
-      bind : function(){
-        var attr = this.el.nodeType === 3
-            ? 'nodeValue'
-            : 'textContent'
-        var val = this.vm.$data[this.key] 
-        
-        if(val === undefined){
-        }else{
-          val = [val]
-        }
-        this.vm.$data[this.key] = this.el[attr]
-      }
-    })
-    var app = new Vue({
-      el : "#foo",
-    })
-    /*
-    var p = new Vue({
-      el : "#parat",
-      paramAttributes : ["size", "a", "data-content"],
-      ready : function(){
-      },
-      created :function(){
-        console.log(this.cnt)
-      }
-    })*/
+    window.addEventListener('popstate.pjax',function(ev){
+      console.log("hoge")
+    },false);
     </script>
   </body>
 </html>
