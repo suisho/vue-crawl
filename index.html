@@ -1,48 +1,24 @@
 <html>
   <head>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
   </head>
   <body>
-    <div id="foo">
-      <div v-text="baz" v-default-text="baz">
-        hoge
-      </div>
+    <div id="foo" >
+      <pre v-model="baz" v-on="click:changeBaz">
+        クリックすると文字が変わるよ
+      </pre>
     </div>
-    <!--div id="parat" size=100 a="b" data-content="hoge">
-      <div  v-text="data-cnt">
-        hoge
-      </div>
-      <div  v-text="a"></div>
-      
-    </div-->
-    <script>
-    Vue.directive("default-as", {
-      bind : function(){
-        var attr = this.el.nodeType === 3
-            ? 'nodeValue'
-            : 'textContent'
-        var val = this.vm.$data[this.key] 
-        
-        if(val === undefined){
-        }else{
-          val = [val]
-        }
-        this.vm.$data[this.key] = this.el[attr]
-      }
-    })
+    <script id="src">
+    // これだけでできてるよ！
     var app = new Vue({
       el : "#foo",
-    })
-    /*
-    var p = new Vue({
-      el : "#parat",
-      paramAttributes : ["size", "a", "data-content"],
-      ready : function(){
-      },
-      created :function(){
-        console.log(this.cnt)
+      methods :{
+        changeBaz : function(){
+          console.log(document.querySelector("#src"))
+          this.$data.baz = document.querySelector("#src").textContent
+        }
       }
-    })*/
+    })
     </script>
   </body>
 </html>
