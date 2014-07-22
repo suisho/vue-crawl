@@ -1,29 +1,29 @@
 <html>
   <head>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
+    <script>
+    var exports = {}
+    </script>
+    
+    <script src="index.js"></script>
   </head>
   <body>
-    <div id="foo" >
-      <pre v-model="baz" v-on="click:changeBaz">
-        クリックすると文字が変わるよ
-      </pre>
+    <div id="foo">
+      <div v-crawl-text="baz" class="b">
+        hoge
+      </div>
     </div>
-    <script id="src">
-    // これだけでできてるよ！
-    var app = new Vue({
-      el : "#foo",
-      methods :{
-        changeBaz : function(){       
-          this.$data.baz = this.escapeHtml(document.querySelector("html").outerHTML)
-        },
-        // ただのエスケープ関数
-        escapeHtml : function(str){
-          var div = document.createElement('div')
-          div.appendChild(document.createTextNode(str))
-          return div.innerHTML
-        }
+    <script>
+    function assert(exp){
+      if(!app){
+        throw Error(exp + " is not true")
       }
+    }
+    var appText = new Vue({
+      el : "#foo"
     })
+    assert(appText.data == )
+    
     </script>
   </body>
 </html>
