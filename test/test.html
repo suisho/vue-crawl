@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
+    <script src="build/build.js"></script>
+  </head>
+  <body>
+    <ul id="test-result">
+      <li v-repeat="results">{{title}}:{{result}}</li>
+    </ul>
+    
+    <div id="foo">
+      <div v-crawl-text="baz" class="b">
+        hoge
+      </div>
+    </div>
+      
+    <script>
+    var vueCrawl = require("vue-crawl")
+    Vue.use(vueCrawl)
+    function assert(exp){
+      
+    }
+    var testResult = new Vue({
+      el : "#test-result",
+      data : {
+        results : []
+      },
+      methods : {
+        assert : function(title, exp){
+          results.push({
+            title : title,
+            result : exp()
+          })  
+        }
+      }
+    })
+    
+    var appText = new Vue({
+      el : "#foo"
+    })
+    
+    testResult.assert("appText", (appText.data.baz.trim() == "hoge"))
+    
+    </script>
+  </body>
+</html>

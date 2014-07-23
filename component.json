@@ -1,0 +1,14 @@
+{
+  "name": "vue-crawl",
+  "repo": "suisho/vue-crawl",
+  "description": "vue.js plugin for crawlable page",
+  "version": "0.0.1",
+  "keywords": [],
+  "scripts" : ["index.js"],
+  "dependencies": {},
+  "development": {
+    "yyx990803/vue": "~0.10.5"
+  },
+  "license": "MIT",
+  "main" : "index.js"
+}
