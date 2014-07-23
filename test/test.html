@@ -1,25 +1,34 @@
 <html>
   <head>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
-    <script src="build/build.js"></script>
+    <script src="../build/build.js"></script>
   </head>
   <body>
     <ul id="test-result">
-      <li v-repeat="results">{{title}}:{{result}}</li>
+      <li v-repeat="results">{{title}} : {{result}}</li>
     </ul>
     
     <div id="foo">
+      <div v-crawl-text="baz" v-text="baz" class="b">
+        hoge
+      </div>
+    </div>
+      
+    <div id="foo2">
       <div v-crawl-text="baz" class="b">
         hoge
+      </div>
+    </div>
+    
+    <div id="foo3">
+      <div v-crawl-html="baz" class="b">
+        <span style="color:red">bee</span>
       </div>
     </div>
       
     <script>
     var vueCrawl = require("vue-crawl")
     Vue.use(vueCrawl)
-    function assert(exp){
-      
-    }
     var testResult = new Vue({
       el : "#test-result",
       data : {
@@ -27,7 +36,7 @@
       },
       methods : {
         assert : function(title, exp){
-          results.push({
+          this.results.push({
             title : title,
             result : exp()
           })  
@@ -35,11 +44,47 @@
       }
     })
     
-    var appText = new Vue({
+    var appText1 = new Vue({
       el : "#foo"
     })
+    testResult.assert("appText", function(){
+      return (appText1.baz.trim() == "hoge")
+    })
+    appText1.baz = "fuga"
+    // wait 1 frame
+    setTimeout(function(){
+      testResult.assert("change text", function(){
+        var r = document.querySelector("#foo .b").textContent
+        console.log(r)
+        return (r == "fuga")
+      })
+    }, 1)
     
-    testResult.assert("appText", (appText.data.baz.trim() == "hoge"))
+    
+    var appText2 = new Vue({
+      el : "#foo2",
+      data : {
+        baz : "boo"
+      }
+    })
+    testResult.assert("appText overwrite", function(){
+      return (appText2.baz.trim() == "hoge") // overwrite default data
+    })
+
+    
+    // v-crawl-html
+    var appHtml = new Vue({
+      el : "#foo3"
+    })
+    testResult.assert("appHTML", function(){
+      return (appHtml.baz.trim() == '<span style="color:red">bee</span>') 
+    })
+    appHtml.baz = '<span style="color:blue">bee</span>'
+    testResult.assert("appHTML change", function(){
+      return (appHtml.baz.trim() == '<span style="color:blue">bee</span>') 
+    })
+  
+    
     
     </script>
   </body>

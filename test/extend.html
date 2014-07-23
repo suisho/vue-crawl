@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
+  </head>
+  <body>
+    <div id="foo">
+      <div v-text="baz | crawl" class="b">
+        hoge
+      </div>
+    </div>
+      
+    <script>
+    var VueCrawled = Vue.extend({
+      created : function(){
+        console.log("c",this.$el.textContent.trim())
+        
+      },
+      ready : function(){
+      },
+      attached : function(){
+        console.log("a")
+      },
+      methods : {
+        loaded : function(){
+          console.log("aaa")
+        }
+      },
+      filters : {
+        crawl : function(v, k){
+          console.log("fff")
+        }
+      }
+    })
+    var app = new VueCrawled({
+      el : "#foo"
+    })
+    console.log(app.baz)
+    </script>
+  </body>
+</html>
