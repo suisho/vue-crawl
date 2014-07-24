@@ -4,12 +4,24 @@ exports.install = function(Vue, options){
   var textDirective = Vue.require("directives").text
   var htmlDirective = Vue.require("directives").html
   
+  // usage: crawlValue.call(this)
+  var crawlValue = function(){
+    var attr = this.el.nodeType === 3
+        ? 'nodeValue'
+        : 'textContent'
+    this.vm.$data[this.key] = this.el[attr]
+  }
+  
+  Vue.directive("crawl", {
+    bind : function(){
+      console.log("s")
+      crawlValue.call(this)
+    }
+  })
+  
   Vue.directive("crawl-text", {
     bind : function(){
-      var attr = this.el.nodeType === 3
-          ? 'nodeValue'
-          : 'textContent'
-      this.vm.$data[this.key] = this.el[attr]
+      crawlValue.call(this)
     },
     update : function(value){
       textDirective.update.call(this, value)
@@ -17,11 +29,10 @@ exports.install = function(Vue, options){
   })
   Vue.directive("crawl-html", {
     bind : function(){
-      var val = this.el.innerHTML
-      this.vm.$data[this.key] = val
+      this.vm.$data[this.key] = this.el.innerHTML
     },
     update : function(value){
-      return htmlDirective.update.call(this, value)
+      htmlDirective.update.call(this, value)
     }
   })
 }

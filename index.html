@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.5/vue.js"></script>
+  </head>
+  <body>
+    <script type="text/x-template" id="empty">
+      <pre v-text="baz" v-on="click:changeBaz">
+        <content>
+        </content>
+      </pre>
+    </script>
+    <div id="foo" >
+      <pre class="container" v-component="empty">
+        クリックすると文字が変わるよ
+      </pre>
+    </div>
+    <script id="src">
+    Vue.component("empty", {
+      template : "#empty",
+      replace: true
+    })
+    // これだけでできてるよ！
+    var app = new Vue({
+      el : "#foo",
+      data : {
+        baz : document.querySelector("#foo .container").textContent
+      },
+      methods :{
+        changeBaz : function(){       
+          this.$data.baz = this.escapeHtml(document.querySelector("body").outerHTML)
+        },
+        // ただのエスケープ関数
+        escapeHtml : function(str){
+          var div = document.createElement('div')
+          div.appendChild(document.createTextNode(str))
+          return div.innerHTML
+        }
+      }
+    })
+    </script>
+  </body>
+</html>

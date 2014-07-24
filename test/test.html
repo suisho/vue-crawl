@@ -25,7 +25,21 @@
         <span style="color:red">bee</span>
       </div>
     </div>
-      
+    <!-- component -->
+    <script type="text/x-template" id="pre">
+      <pre v-text="baz" v-on="click:changeBaz">
+        <content>
+        </content>
+      </pre>
+    </script>
+    <div id="foo-as-component" >
+      <pre class="container" v-crawl="baz" v-cloak>
+        hoge component
+      </pre>
+      <pre v-component="pre"></div>
+  
+    </div>
+    
     <script>
     var vueCrawl = require("vue-crawl")
     Vue.use(vueCrawl)
@@ -55,7 +69,6 @@
     setTimeout(function(){
       testResult.assert("change text", function(){
         var r = document.querySelector("#foo .b").textContent
-        console.log(r)
         return (r == "fuga")
       })
     }, 1)
@@ -76,7 +89,8 @@
     var appHtml = new Vue({
       el : "#foo3"
     })
-    testResult.assert("appHTML", function(){
+    testResult.assert("appHTML default", function(){
+
       return (appHtml.baz.trim() == '<span style="color:red">bee</span>') 
     })
     appHtml.baz = '<span style="color:blue">bee</span>'
@@ -84,6 +98,25 @@
       return (appHtml.baz.trim() == '<span style="color:blue">bee</span>') 
     })
   
+    // component
+    Vue.component("pre", {
+      template : "#pre",
+      replace: true
+    })
+    var appCmp = new Vue({
+      el : "#foo-as-component",
+      methods : {
+        changeBaz : function(){
+          console.log("mog")
+        }
+      }
+    })
+    testResult.assert("component test", function(){
+      return (appCmp.baz.trim() == "hoge component")
+    })
+
+    appCmp.baz = "after loaded"
+    
     
     
     </script>
